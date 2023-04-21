@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Menu</title>
+  <style>
+    .container nav {
+      background-color: aqua;
+    }
+
+    .container nav ul li {
+      display: inline-block;
+      margin-left: 50px;
+      border: 1px solid maroon;
+      padding: 5px;
+    }
+
+    .active {
+      background-color: blueviolet;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li class="active"><a href="https://www.google.com">Home</a></li>
+        <li><a href="https://www.google.com">Contact</a></li>
+        <li><a href="https://www.google.com">About</a></li>
+      </ul>
+    </nav>
+  </div>
+  <script>
+    window.onload = function () {
+      const audioCtx = new AudioContext();
+      const selected = document.querySelectorAll("nav ul li");
+      let index = 0;
+
+      function sound() {
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(432, audioCtx.currentTime); // 432 Hz is known as a healing frequency
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3); // Play for 0.3 seconds
+      }
+
+      function handleKeydown(event) {
+        const code = event.code;
+        if (code === "ArrowRight") {
+          selected[index].classList.remove('active');
+          index = (index + 1) % selected.length;
+          selected[index].classList.add('active');
+          sound();
+        } else if (code === "ArrowLeft") {
+          selected[index].classList.remove('active');
+          index = (index - 1 + selected.length) % selected.length;
+          selected[index].classList.add('active');
+          sound();
+        } else if (code === "Enter") {
+          const elements = document.querySelector('.active');
+          window.location.href = elements.querySelector('a').getAttribute('href');
+        }
+      }
+
+      document.addEventListener('keydown', handleKeydown);
+    };
+  </script>
+</body>
+
+</html>

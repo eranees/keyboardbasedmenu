@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .container nav {
+      background-color: aqua;
+    }
+
+    .container nav ul li {
+      display: inline-block;
+      margin-left: 50px;
+      border: 1px solid maroon;
+      padding: 5px;
+    }
+
+    .active {
+      background-color: blueviolet;
+      color: white;
+    }
+  </style>
+  <title>Menu</title>
+</head>
+
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li class="active"><a href="https://www.google.com">Home</a></li>
+        <li><a href="https://www.google.com">Contact</a></li>
+        <li><a href="https://www.google.com">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</body>
+<script>
+  window.onload = function () {
+
+    function sound() {
+      var audioCtx = new AudioContext();
+      var oscillator = audioCtx.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(432, audioCtx.currentTime); // 432 Hz is known as a healing frequency
+      oscillator.connect(audioCtx.destination);
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.3); // Play for 2 seconds
+    }
+
+    let selected = document.querySelectorAll("nav ul li");
+    // Add event listener on keydown
+    document.addEventListener('keydown', (event) => {
+      var name = event.key;
+      var code = event.code;
+      // Alert the key name and key code on keydown
+
+      if (code == "ArrowRight") {
+        if (selected[0].classList.value == "active") {
+
+          selected[0].classList.remove('active');
+          selected[1].classList.add('active');
+          selected[2].classList.remove('active');
+
+        } else if (selected[1].classList.value == "active") {
+
+          selected[0].classList.remove('active');
+          selected[2].classList.add('active');
+          selected[1].classList.remove('active');
+
+        } else if (selected[2].classList.value == "active") {
+
+          selected[1].classList.remove('active');
+          selected[0].classList.add('active');
+          selected[2].classList.remove('active');
+
+        }
+        sound();
+      }
+      else if (code == "ArrowLeft") {
+        if (selected[0].classList.value == "active") {
+
+          selected[0].classList.remove('active');
+          selected[2].classList.add('active');
+          selected[1].classList.remove('active');
+
+        } else if (selected[1].classList.value == "active") {
+
+          selected[2].classList.remove('active');
+          selected[0].classList.add('active');
+          selected[1].classList.remove('active');
+
+        } else if (selected[2].classList.value == "active") {
+
+          selected[0].classList.remove('active');
+          selected[1].classList.add('active');
+          selected[2].classList.remove('active');
+
+        }
+        sound();
+      }
+      else if (code == "Enter") {
+        var elements = document.querySelector('.active');
+
+        window.location.href = elements.querySelector('a').getAttribute('href');
+      }
+
+      // alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+
+
+    }, false);
+
+  }
+</script>
+
+</html>
